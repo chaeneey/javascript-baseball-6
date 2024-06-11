@@ -6,8 +6,9 @@ class App {
     let randomNumber = MissionUtils.Random.pickUniqueNumbersInRange(1, 9, 3);
     MissionUtils.Console.print(randomNumber);
 
-    MissionUtils.Console.readLine('숫자를 입력해주세요.', (answer) => {
+    MissionUtils.Console.readLine('숫자를 입력해주세요. : ', (answer) => {
 
+    // 사용자 입력값을 백의 자리, 십의 자리, 일의 자리로 분류
     const firstValue = Math.floor(answer / 100);
     const secondValue = Math.floor((answer - (firstValue * 100)) / 10);
     const thirdValue = Math.floor(answer - (firstValue * 100 + secondValue * 10))
@@ -17,38 +18,54 @@ class App {
     const firstValueInRandomNumber = randomNumber.includes(firstValue)
     const secondValueInRandomNumber = randomNumber.includes(secondValue)
     const thirdValueInRandomNumber = randomNumber.includes(thirdValue)
-    const ball = firstValueInRandomNumber + secondValueInRandomNumber + thirdValueInRandomNumber;
 
     // randomNumber와 사용자 입력값 자리까지 비교 > 스트라이크
     const CheckStrike = () => {
       if (randomNumber[0] === firstValue) {
         strike ++
       }
-
       if (randomNumber[1] === secondValue) {
         strike ++
       }
-
       if (randomNumber[2] === thirdValue) {
         strike ++
       }
     }
 
-    if (ball) {
-      CheckStrike();
-      MissionUtils.Console.print(`${strike} 스트라이크`);
-      if (ball-strike) {
-        MissionUtils.Console.print(`${ball-strike} 볼`);
+      const ball = firstValueInRandomNumber + secondValueInRandomNumber + thirdValueInRandomNumber;
+      strike = 0;
+      
+
+      if (ball) {
+        CheckStrike();
+        MissionUtils.Console.print(`${strike} 스트라이크`);
+        if (ball-strike) {
+          MissionUtils.Console.print(`${ball-strike} 볼`);
+        }
+      } else {
+        MissionUtils.Console.print(`낫싱`);
       }
-    } else {
-      MissionUtils.Console.print(`낫싱`);
-    }
+  
+      if (strike === 3) {
+        MissionUtils.Console.print('세 개의 숫자를 모두 맞히셨습니다! 게임종료.');
+      } else {
+        this.play();
+      }
 
   })
   }
 }
 
 const app = new App();
-app.play();
+app.play()
+// .then(() => {
+//   MissionUtils.Console.readLine('게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.', (answer) => {
+//     if (answer === 1) {
+//       app.play();
+//     } else {
+//       app.close();
+//     }
+//   });
+// })
 
 export default App;
